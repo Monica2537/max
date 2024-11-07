@@ -18,10 +18,22 @@
         }
 
         header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background-color: #007BFF;
             color: white;
-            text-align: center;
             padding: 20px;
+        }
+
+        #logo {
+            width: 50px;
+            height: auto;
+        }
+
+        h1 {
+            flex-grow: 1;
+            text-align: center;
         }
 
         .search {
@@ -70,12 +82,13 @@
             position: fixed;
             width: 100%;
             bottom: 0;
-        }
+        }  
     </style>
 </head>
 <body>
     <header>
-        <h1>MilesTone 2</h1>
+        <img src="logo.png" id="logo" alt="Logo de la empresa"> <!-- Asegúrate de tener el logo en tu carpeta -->
+        <h1>Búsqueda de Empleo en Querétaro</h1>
     </header>
     
     <section class="search">
