@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Empleo en Querétaro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .search {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #searchBar {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .results {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .job-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 30%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-card h2 {
+            color: #007BFF;
+            font-size: 20px;
+        }
+
+        .job-card p {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MilesTone 2</h1>
+    </header>
+    
+    <section class="search">
+        <input type="text" id="searchBar" placeholder="Ingresa un puesto o palabra clave..." oninput="searchJob()">
+    </section>
+
+    <section class="results" id="results">
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Búsqueda de Empleo. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const jobs = [
+            {
+                puesto: "Desarrollador Web",
+                sueldo: "$15,000 - $20,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 6:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Seguro médico, vales de despensa, capacitación continua",
+                descripcion: "Desarrollar aplicaciones web utilizando tecnologías como HTML, CSS, JavaScript y frameworks como React.",
+                contacto: "cv@empresa1.com"
+            },
+            {
+                puesto: "Diseñador Gráfico",
+                sueldo: "$12,000 - $15,000",
+                tipo: "Medio Tiempo",
+                turno: "Lunes a Viernes",
+                horario: "10:00 AM - 3:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Seguro de vida, descuentos en productos, jornada flexible",
+                descripcion: "Diseñar materiales gráficos para campañas de marketing, redes sociales y productos digitales.",
+                contacto: "cv@empresa2.com"
+            },
+            {
+                puesto: "Analista de Datos",
+                sueldo: "$18,000 - $22,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 6:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Bonos, entrenamiento especializado, seguro de salud",
+                descripcion: "Analizar y procesar grandes cantidades de datos para generar reportes y tomar decisiones estratégicas.",
+                contacto: "cv@empresa3.com"
+            },
+            {
+                puesto: "Contador",
+                sueldo: "$14,000 - $18,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 5:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Aguinaldo, seguro de gastos médicos mayores, días de descanso",
+                descripcion: "Gestionar las finanzas de la empresa, elaborar estados financieros y cumplir con las normativas fiscales.",
+                contacto: "cv@empresa4.com"
+            },
+            {
+                puesto: "Marketing Digital",
+                sueldo: "$13,000 - $17,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "8:30 AM - 5:30 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Capacitación continua, home office, seguro de vida",
+                descripcion: "Desarrollar y ejecutar estrategias de marketing en plataformas digitales, incluyendo redes sociales y campañas de Google Ads.",
+                contacto: "cv@empresa5.com"
+            },
+            {
+                puesto: "Vendedor de Tecnología",
+                sueldo: "$10,000 - $12,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 6:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Comisiones, seguro de salud, vales de gasolina",
+                descripcion: "Promocionar y vender productos tecnológicos, proporcionar soporte y asesoramiento a los clientes.",
+                contacto: "cv@empresa6.com"
+            },
+            {
+                puesto: "Asistente Administrativo",
+                sueldo: "$8,000 - $10,000",
+                tipo: "Medio Tiempo",
+                turno: "Lunes a Viernes",
+                horario: "10:00 AM - 3:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Vales de despensa, horario flexible",
+                descripcion: "Brindar apoyo administrativo, manejar agendas, organizar documentos y realizar tareas generales de oficina.",
+                contacto: "cv@empresa7.com"
+            },
+            {
+                puesto: "Gerente de Recursos Humanos",
+                sueldo: "$25,000 - $30,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 6:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Fondo de ahorro, bono anual, seguro médico privado",
+                descripcion: "Gestionar procesos de reclutamiento, bienestar y desarrollo de empleados dentro de la empresa.",
+                contacto: "cv@empresa8.com"
+            },
+            {
+                puesto: "Ingeniero de Software",
+                sueldo: "$20,000 - $25,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Viernes",
+                horario: "9:00 AM - 6:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Seguro de vida, días libres adicionales, home office",
+                descripcion: "Desarrollar soluciones de software, mantenimiento de sistemas y trabajar en equipo para mejorar productos tecnológicos.",
+                contacto: "cv@empresa9.com"
+            },
+            {
+                puesto: "Chef Ejecutivo",
+                sueldo: "$18,000 - $22,000",
+                tipo: "Tiempo Completo",
+                turno: "Lunes a Domingo (con descansos rotativos)",
+                horario: "7:00 AM - 5:00 PM",
+                ubicacion: "Querétaro",
+                beneficios: "Comida incluida, uniforme, días de descanso",
+                descripcion: "Planificar menús, supervisar el equipo de cocina y garantizar la calidad de los platillos.",
+                contacto: "cv@empresa10.com"
+            }
+        ];
+
+        function searchJob() {
+            const query = document.getElementById("searchBar").value.toLowerCase();
+            const filteredJobs = jobs.filter(job => 
+                job.puesto.toLowerCase().includes(query) ||
+                job.descripcion.toLowerCase().includes(query)
+            );
+            displayJobs(filteredJobs);
+        }
+
+        function displayJobs(jobs) {
+            const resultsContainer = document.getElementById("results");
+            resultsContainer.innerHTML = ""; // Limpiar resultados anteriores
+
+            if (jobs.length === 0) {
+                resultsContainer.innerHTML = "<p>No se encontraron resultados.</p>";
+                return;
+            }
+
+            jobs.forEach(job => {
+                const jobCard = document.createElement("div");
+                jobCard.classList.add("job-card");
+                jobCard.innerHTML = `
+                    <h2>${job.puesto}</h2>
+                    <p><strong>Sueldo:</strong> ${job.sueldo}</p>
+                    <p><strong>Tipo:</strong> ${job.tipo}</p>
+                    <p><strong>Turno:</strong> ${job.turno}</p>
+                    <p><strong>Horario:</strong> ${job.horario}</p>
+                    <p><strong>Ubicación:</strong> ${job.ubicacion}</p>
+                    <p><strong>Beneficios:</strong> ${job.beneficios}</p>
+                    <p><strong>Descripción:</strong> ${job.descripcion}</p>
+                    <p><strong>Contacto:</strong> <a href="mailto:${job.contacto}">${job.contacto}</a></p>
+                `;
+                resultsContainer.appendChild(jobCard);
+            });
+        }
+        
+    </script>
+</body>
+</html>
